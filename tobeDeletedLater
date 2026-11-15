@@ -1,3 +1,0 @@
-window.onload = function () {
-  alert("this is new incident for use");
-};  
