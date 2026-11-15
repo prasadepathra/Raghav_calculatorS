@@ -26,11 +26,12 @@
     <input id="display" value="0" readonly aria-label="Calculator display">
     <section class="keys">
       <button class="clear" data-action="clear">AC</button>
-      <button data-action="backspace">⌫</button>
-      <button class="operator" data-value="/">÷</button>
-      <button class="operator" data-value="*">×</button>
+      <button data-action="backspace">âŒ«</button>
+      <button class="operator" data-action="percent">%</button>
+      <button class="operator" data-value="/">Ã·</button>
+      <button class="operator" data-value="*">Ã—</button>
       <button data-value="7">7</button><button data-value="8">8</button><button data-value="9">9</button>
-      <button class="operator" data-value="-">−</button>
+      <button class="operator" data-value="-">âˆ’</button>
       <button data-value="4">4</button><button data-value="5">5</button><button data-value="6">6</button>
       <button class="operator" data-value="+">+</button>
       <button data-value="1">1</button><button data-value="2">2</button><button data-value="3">3</button>
@@ -58,6 +59,9 @@
       const action = button.dataset.action;
       if (action === 'clear') expression = '';
       else if (action === 'backspace') expression = expression.slice(0, -1);
+      else if (action === 'percent') {
+        if (expression) expression = `(${expression})/100`;
+      }
       else if (action === 'equals') calculate();
       else {
         if (expression === 'Error') expression = '';
@@ -66,7 +70,10 @@
       render();
     });
     document.addEventListener('keydown', event => {
-      if (/^[0-9.+*/()\-]$/.test(event.key)) expression += event.key;
+      if (event.key === '%') {
+        if (expression) expression = `(${expression})/100`;
+      }
+      else if (/^[0-9.+*/()\-]$/.test(event.key)) expression += event.key;
       else if (event.key === 'Enter' || event.key === '=') calculate();
       else if (event.key === 'Backspace') expression = expression.slice(0, -1);
       else if (event.key === 'Escape') expression = '';
@@ -76,3 +83,4 @@
   </script>
 </body>
 </html>
+
